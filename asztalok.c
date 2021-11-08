@@ -55,10 +55,10 @@ void asztalok_felszabadit(const Asztalok *asztalok) {
  */
 int asztalok_beolvas(char *fajl, Asztalok *asztalok) {
     FILE *fp = fopen(fajl, "r");
+    *asztalok = (Asztalok) {NULL, NULL};
     if(fp == NULL)
         return 1;
 
-    *asztalok = (Asztalok) {NULL, NULL};
     char buffer[255];
     while(fgets(buffer, 255, fp) != NULL)
         asztal_sor_hozzaad(buffer, asztalok);

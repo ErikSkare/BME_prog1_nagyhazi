@@ -47,10 +47,10 @@ void menu_felszabadit(const Menu *menu) {
  */
 int menu_beolvas(char *fajl, Menu *menu) {
     FILE *fp = fopen(fajl, "r");
+    *menu = (Menu) {NULL, NULL};
     if(fp == NULL)
         return 1;
 
-    *menu = (Menu) {NULL, NULL};
     char buffer[255];
     while(fgets(buffer, 255, fp) != NULL)
         menu_sor_hozzaad(buffer, menu);
