@@ -36,6 +36,10 @@
 		</Unit>
 		<Unit filename="asztalok.h" />
 		<Unit filename="deps/debugmalloc.h" />
+		<Unit filename="funkciok.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="funkciok.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
