@@ -31,8 +31,7 @@ int menu_beolvas(char *fajl, Menu *menu);
 int menu_kiir(char *fajl, const Menu *menu);
 static void menu_sor_hozzaad(char *sor, Menu *menu);
 
-//<Menükezelõ függvények>
-void menupont_hozzaad(int ar, char *nev, Menu *menu);
-Menupont *menupont_keres(int azonosito, const Menu *menu);
+//<Hivatkozások>
+extern void menupont_hozzaad(int ar, char *nev, Menu *menu);
 
 #endif

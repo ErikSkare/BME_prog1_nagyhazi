@@ -26,7 +26,7 @@ typedef struct Rendeles {
 Rendeles *rendeles_foglal(Menupont *termek, int darab);
 void rendelesek_felszabadit(const Rendelesek *rendelesek);
 
-//<Rendeléskezelõ függvények>
-int rendeles_hozzaad(int termek_azonosito, int darab, const Menu *menu, Rendelesek *rendelesek);
+//<Hivatkozások>
+extern int rendeles_hozzaad(int termek_azonosito, int darab, const Menu *menu, Rendelesek *rendelesek);
 
 #endif

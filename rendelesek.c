@@ -32,29 +32,3 @@ void rendelesek_felszabadit(const Rendelesek *rendelesek) {
         aktualis = kov;
     }
 }
-
-/**
- * @brief Hozzáad egy rendelést a láncolt listához.
- *
- * @param termek_azonosito: A termék azonosítója, amelyet hozzá szeretnénk adni.
- * @param darab: Ahány darabot szeretnénk rendelni a termékbõl.
- * @param menu: A menü struktúrára mutató pointer.
- * @param rendelesek: A rendelések struktúrára mutató pointer.
- *
- * @return Visszatérési értéke 1, ha nem sikerült felvenni a rendelést.
- *         0, ha sikeres volt a felvétel.
- */
-int rendeles_hozzaad(int termek_azonosito, int darab, const Menu *menu, Rendelesek *rendelesek) {
-    Menupont *termek = menupont_keres(termek_azonosito, menu);
-    if(termek == NULL)
-        return 1;
-
-    Rendeles *uj = rendeles_foglal(termek, darab);
-    if(rendelesek->eleje == NULL && rendelesek->vege == NULL)
-        rendelesek->eleje = uj;
-    else
-        rendelesek->vege->kov = uj;
-
-    rendelesek->vege = uj;
-    return 0;
-}

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "asztalok.h"
+#include "funkciok.h"
 
 int main()
 {
