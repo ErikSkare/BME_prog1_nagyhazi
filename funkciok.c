@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "funkciok.h"
+#include "deps/debugmalloc.h"
 
 /**
  * @brief Hozzáad egy asztalt a láncolt listához.
@@ -45,6 +46,86 @@ Asztal *asztal_keres(int azonosito, const Asztalok *asztalok) {
     while(aktualis != NULL && aktualis->azonosito != azonosito)
         aktualis = aktualis->kov;
     return aktualis;
+}
+
+/**
+ * @brief Megnyitja az adott azonosítójú asztalt.
+ *
+ * @param azonosito: A megnyitandó asztal azonosítója.
+ * @param asztalok: Az asztalok struktúrára mutató pointer.
+ *
+ * @return Visszatérési értéke 1, ha az adott azonosítóval nem található asztal.
+ *         0, ha sikerült megnyitni az asztalt.
+ */
+int asztal_megnyit(int azonosito, Asztalok *asztalok) {
+    Asztal *megnyitando = asztal_keres(azonosito, asztalok);
+    if(megnyitando == NULL)
+        return 1;
+    megnyitando->statusz = FOGLALT;
+    return 0;
+}
+
+/**
+ * @brief Lezárja az adott azonosítójú asztalt.
+ *
+ * A státuszát SZABAD-ra állítja, és törli a hozzá tartozó megrendeléseket.
+ *
+ * @param azonosito: A lezárandó asztal azonosítója.
+ * @param asztalok: Az asztalok struktúrára mutató pointer.
+ *
+ * @return Visszatérési értéke 1, ha az adott azonosítóval nem található asztal.
+ *         0, ha sikerült lezárni az asztalt.
+ */
+int asztal_lezar(int azonosito, Asztalok *asztalok) {
+    Asztal *lezarando = asztal_keres(azonosito, asztalok);
+    if(lezarando == NULL)
+        return 1;
+    lezarando->statusz = SZABAD;
+    for(int i = 0; i < lezarando->ferohely; ++i) {
+        rendelesek_felszabadit(&lezarando->hely_rendelesek[i]);
+        lezarando->hely_rendelesek[i] = (Rendelesek) {NULL, NULL};
+    }
+    return 0;
+}
+
+/**
+ * @brief Töröl egy asztalt a láncolt listából.
+ *
+ * Továbbá csökkenti az utána következő asztalok azonosítóját 1-el.
+ *
+ * @param azonosito: A törölendő asztal azonosítója.
+ * @param asztalok: Az asztalok struktúrára mutató pointer.
+ *
+ * @return Visszatérési értéke 1, ha nem található az asztal, vagy foglalt a státusza.
+ *         0, ha sikerült a törlés.
+ */
+int asztal_torol(int azonosito, Asztalok *asztalok) {
+    Asztal *torolendo = asztal_keres(azonosito, asztalok);
+    if(torolendo == NULL || torolendo->statusz == FOGLALT)
+        return 1;
+
+    //A következő asztalok azonosítójának csökkentése.
+    Asztal *futo = torolendo->kov;
+    while(futo != NULL) {
+        --futo->azonosito;
+        futo = futo->kov;
+    }
+
+    //Törlés a listából
+    Asztal *elotte = asztal_keres(azonosito - 1, asztalok);
+    if(elotte != NULL)
+        elotte->kov = torolendo->kov;
+    else
+        asztalok->eleje = torolendo->kov;
+    if(torolendo->kov == NULL)
+        asztalok->vege = elotte;
+
+    //Felszabadítás
+    for(int i = 0; i < torolendo->ferohely; ++i)
+        rendelesek_felszabadit(&torolendo->hely_rendelesek[i]);
+    free(torolendo->hely_rendelesek);
+    free(torolendo);
+    return 0;
 }
 
 /**
@@ -94,6 +175,45 @@ Menupont *menupont_keres(int azonosito, const Menu *menu) {
 }
 
 /**
+ * @brief Töröl egy menüpontot a megadott azonosítóval.
+ *
+ * Továbbá csökkenti az utána következő menüpontok azonosítóját 1-el.
+ *
+ * @param azonosito: A törölendő menüpont azonosítója.
+ * @param menu: A menü struktúrára mutató pointer.
+ * @param asztalok: Az asztalok struktúrára mutató pointer.
+ *
+ * @return Visszatérési értéke 1, ha nem található a megadott azonosítóval menüpont,
+ *         vagy, ha van a megadott azonosítóval nyilvántartott rendelés.
+ *         0, ha sikerült a törlés.
+ */
+int menupont_torol(int azonosito, Menu *menu, const Asztalok *asztalok) {
+    Menupont *torolendo = menupont_keres(azonosito, menu);
+    if(torolendo == NULL || rendeles_menuponttal(azonosito, asztalok) == 1)
+        return 1;
+
+    //A következő menüpontok azonosítójának csökkentés
+    Menupont *futo = torolendo->kov;
+    while(futo != NULL) {
+        --futo->azonosito;
+        futo = futo->kov;
+    }
+
+    //Törlés a listából
+    Menupont *elotte = menupont_keres(azonosito - 1, menu);
+    if(elotte != NULL)
+        elotte->kov = torolendo->kov;
+    else
+        menu->eleje = torolendo->kov;
+    if(torolendo->kov == NULL)
+        menu->vege = elotte;
+
+    //Felszabadítás
+    free(torolendo);
+    return 0;
+}
+
+/**
  * @brief Hozzáad egy rendelést a láncolt listához.
  *
  * @param termek_azonosito: A termék azonosítója, amelyet hozzá szeretnénk adni.
@@ -118,5 +238,30 @@ int rendeles_hozzaad(int termek_azonosito, int darab, const Menu *menu, Rendeles
         rendelesek->vege->kov = uj;
 
     rendelesek->vege = uj;
+    return 0;
+}
+
+/**
+ * @brief Megmondja, hogy van-e nyilvántartott rendelés az adott menüpont azonosítóval.
+ *
+ * @param azonosito: A menüpont azonosítója.
+ * @param asztalok: Az asztalok struktúrára mutató pointer.
+ *
+ * @return Visszatérési értéke 1, ha van rendelés az adott azonosítóval.
+ *         0, ha nincs.
+ */
+static int rendeles_menuponttal(int azonosito, const Asztalok *asztalok) {
+    Asztal *aktualis = asztalok->eleje;
+    while(aktualis != NULL) {
+        for(int i = 0; i < aktualis->ferohely; ++i) {
+            Rendeles *futo = aktualis->hely_rendelesek[i].eleje;
+            while(futo != NULL) {
+                if(futo->termek->azonosito == azonosito)
+                    return 1;
+                futo = futo->kov;
+            }
+        }
+        aktualis = aktualis->kov;
+    }
     return 0;
 }
