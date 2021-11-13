@@ -9,11 +9,13 @@
  * @param ar: A menüpont ára.
  * @param nev: A menüpont neve.
  *
- * @return Visszaadja a dinamikusan lefoglalt menüpont címét.
- *         A hívó felelõssége a felszabadítás!
+ * @return Visszaadja a dinamikusan lefoglalt menüpont címét, vagy NULL-t,
+ *         ha nem sikerült a foglalás. A hívó felelõssége a felszabadítás!
  */
 Menupont *menupont_foglal(int azonosito, int ar, char *nev) {
     Menupont *uj = (Menupont*) malloc(sizeof(Menupont));
+    if(uj == NULL)
+        return NULL;
     strcpy(uj->nev, nev);
     uj->azonosito = azonosito;
     uj->ar = ar;
@@ -42,7 +44,7 @@ void menu_felszabadit(const Menu *menu) {
  * @param menu: A menü struktúrára mutató pointer.
  *
  * @return Paraméterlistán beállítja a menu értékét.
- *         Visszatérési értéke 1, ha nem sikerült megnyitni a fájlt.
+ *         Visszatérési értéke 1, ha nem sikerült a beolvasás.
  *         0, ha sikerült.
  */
 int menu_beolvas(char *fajl, Menu *menu) {
@@ -53,7 +55,8 @@ int menu_beolvas(char *fajl, Menu *menu) {
 
     char buffer[255];
     while(fgets(buffer, 255, fp) != NULL)
-        menu_sor_hozzaad(buffer, menu);
+        if(menu_sor_hozzaad(buffer, menu) == 1)
+            return 1;
 
     fclose(fp);
     return 0;
@@ -89,13 +92,15 @@ int menu_kiir(char *fajl, const Menu *menu) {
  *
  * @param sor: A menüpont adatait tartalmazó sztring.
  * @param menu: A menü struktúrára mutató pointer.
+ *
+ * @return Visszatérési értéke a menü hozzáadás sikeressége.
  */
-static void menu_sor_hozzaad(char *sor, Menu *menu) {
+static int menu_sor_hozzaad(char *sor, Menu *menu) {
     char *resz, nev[50 + 1];
     int ar;
     resz = strtok(sor, ";");
     strcpy(nev, resz);
     resz = strtok(NULL, ";");
     sscanf(resz, "%d", &ar);
-    menupont_hozzaad(ar, nev, menu);
+    return menupont_hozzaad(ar, nev, menu);
 }

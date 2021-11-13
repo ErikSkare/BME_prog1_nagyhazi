@@ -45,11 +45,11 @@ int asztalok_beolvas(char *fajl, Asztalok *asztalok);
 int asztalok_kiir(char *fajl, const Asztalok *asztalok);
 int rendelesek_beolvas(char *fajl, const Menu *menu, Asztalok *asztalok);
 int rendelesek_kiir(char *fajl, const Asztalok *asztalok);
-static void asztal_sor_hozzaad(char *sor, Asztalok *asztalok);
-static void rendeles_sor_hozzaad(char *sor, const Menu *menu, Asztalok *asztalok);
+static int asztal_sor_hozzaad(char *sor, Asztalok *asztalok);
+static int rendeles_sor_hozzaad(char *sor, const Menu *menu, Asztalok *asztalok);
 
 //<Hivatkozások>
-extern void asztal_hozzaad(struct Pozicio pozicio, enum Statusz statusz, int ferohely, Asztalok *asztalok);
+extern int asztal_hozzaad(struct Pozicio pozicio, enum Statusz statusz, int ferohely, Asztalok *asztalok);
 extern Asztal *asztal_keres(int azonosito, const Asztalok *asztalok);
 
 #endif

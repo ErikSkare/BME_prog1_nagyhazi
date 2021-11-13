@@ -3,11 +3,11 @@
 #include "asztalok.h"
 
 //<Asztalkezelõ függvények>
-void asztal_hozzaad(struct Pozicio pozicio, enum Statusz statusz, int ferohely, Asztalok *asztalok);
+int asztal_hozzaad(struct Pozicio pozicio, enum Statusz statusz, int ferohely, Asztalok *asztalok);
 Asztal *asztal_keres(int azonosito, const Asztalok *asztalok);
 
 //<Menükezelõ függvények>
-void menupont_hozzaad(int ar, char *nev, Menu *menu);
+int menupont_hozzaad(int ar, char *nev, Menu *menu);
 Menupont *menupont_keres(int azonosito, const Menu *menu);
 
 //<Rendeléskezelõ függvények>

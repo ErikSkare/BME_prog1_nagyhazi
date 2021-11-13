@@ -10,11 +10,13 @@
  * @param statusz: Az asztal státusza (szabad vagy foglalt).
  * @param ferohely: Az asztal helyeinek száma.
  *
- * @return Visszaadja a dinamikusan lefoglalt asztal címét.
- *         A hívó felelőssége a felszabadítás!
+ * @return Visszaadja a dinamikusan lefoglalt asztal címét, vagy NULL-t,
+ *         ha nem sikerült a foglalás. A hívó felelőssége a felszabadítás!
  */
 Asztal *asztal_foglal(int azonosito, struct Pozicio pozicio, enum Statusz statusz, int ferohely) {
     Asztal *uj = (Asztal*) malloc(sizeof(Asztal));
+    if(uj == NULL)
+        return NULL;
     uj->azonosito = azonosito;
     uj->pozicio = pozicio;
     uj->statusz = statusz;
@@ -50,7 +52,7 @@ void asztalok_felszabadit(const Asztalok *asztalok) {
  * @param asztalok: Az asztalok struktúrára mutató pointer.
  *
  * @return Paraméterlistán beállítja az asztalok értékét.
- *         Visszatérési értéke 1, ha nem sikerült megnyitni a fájlt.
+ *         Visszatérési értéke 1, ha nem sikerült a beolvasás.
  *         0, ha sikerült.
  */
 int asztalok_beolvas(char *fajl, Asztalok *asztalok) {
@@ -61,7 +63,8 @@ int asztalok_beolvas(char *fajl, Asztalok *asztalok) {
 
     char buffer[255];
     while(fgets(buffer, 255, fp) != NULL)
-        asztal_sor_hozzaad(buffer, asztalok);
+        if(asztal_sor_hozzaad(buffer, asztalok) == 1)
+            return 1;
 
     fclose(fp);
     return 0;
@@ -98,7 +101,7 @@ int asztalok_kiir(char *fajl, const Asztalok *asztalok) {
  * @param menu: A menü struktúrára mutató pointer.
  * @param asztalok: Az asztalok struktúrára mutató pointer.
  *
- * @return Visszatérési értéke 1, ha nem sikerült megnyitni a fájlt.
+ * @return Visszatérési értéke 1, ha nem sikerült a beolvasás.
  *         0, ha sikerült.
  */
 int rendelesek_beolvas(char *fajl, const Menu *menu, Asztalok *asztalok) {
@@ -108,7 +111,8 @@ int rendelesek_beolvas(char *fajl, const Menu *menu, Asztalok *asztalok) {
 
     char buffer[255];
     while(fgets(buffer, 255, fp) != NULL)
-        rendeles_sor_hozzaad(buffer, menu, asztalok);
+        if(rendeles_sor_hozzaad(buffer, menu, asztalok) == 1)
+            return 1;
 
     fclose(fp);
     return 0;
@@ -150,12 +154,14 @@ int rendelesek_kiir(char *fajl, const Asztalok *asztalok) {
  *
  * @param sor: Az asztal adatait tartalmazó sztring.
  * @param asztalok: Az asztalok struktúrára mutató pointer.
+ *
+ * @return Visszatérési értéke az asztal hozzáadásának sikeressége.
  */
-static void asztal_sor_hozzaad(char *sor, Asztalok *asztalok) {
+static int asztal_sor_hozzaad(char *sor, Asztalok *asztalok) {
     struct Pozicio pozicio;
     int statusz, ferohely;
     sscanf(sor, "%d;%d;%d;%d\n", &pozicio.X, &pozicio.Y, &ferohely, &statusz);
-    asztal_hozzaad(pozicio, (enum Statusz) statusz, ferohely, asztalok);
+    return asztal_hozzaad(pozicio, (enum Statusz) statusz, ferohely, asztalok);
 }
 
 /**
@@ -165,9 +171,11 @@ static void asztal_sor_hozzaad(char *sor, Asztalok *asztalok) {
  * @param sor: A rendelés adatait tartalmazó sztring.
  * @param menu: A menü struktúrára mutató pointer.
  * @param asztalok: Az asztalok struktúrára mutató pointer.
+ *
+ * @return Visszatérési értéke a rendelés hozzáadásának sikeressége.
  */
-static void rendeles_sor_hozzaad(char *sor, const Menu *menu, Asztalok *asztalok) {
+static int rendeles_sor_hozzaad(char *sor, const Menu *menu, Asztalok *asztalok) {
     int a_azonosito, hely_sorszam, t_azonosito, darab;
     sscanf(sor, "%d;%d;%d;%d\n", &a_azonosito, &hely_sorszam, &t_azonosito, &darab);
-    rendeles_hozzaad(t_azonosito, darab, menu, &asztal_keres(a_azonosito, asztalok)->hely_rendelesek[hely_sorszam]);
+    return rendeles_hozzaad(t_azonosito, darab, menu, &asztal_keres(a_azonosito, asztalok)->hely_rendelesek[hely_sorszam]);
 }

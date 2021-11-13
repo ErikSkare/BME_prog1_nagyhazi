@@ -10,17 +10,25 @@
  * @param statusz: Az asztal státusza (szabad vagy foglalt).
  * @param ferohely: Az asztal helyeinek száma.
  * @param asztalok: Az asztalok struktúrára mutató pointer.
+ *
+ * @return Visszatérési értéke 1, ha nem sikerült hozzáadni az asztalt.
+ *         0, ha sikerült.
  */
-void asztal_hozzaad(struct Pozicio pozicio, enum Statusz statusz, int ferohely, Asztalok *asztalok) {
+int asztal_hozzaad(struct Pozicio pozicio, enum Statusz statusz, int ferohely, Asztalok *asztalok) {
     Asztal *uj;
     if(asztalok->eleje == NULL && asztalok->vege == NULL) {
         uj = asztal_foglal(0, pozicio, statusz, ferohely);
+        if(uj == NULL)
+            return 1;
         asztalok->eleje = uj;
     } else {
         uj = asztal_foglal(asztalok->vege->azonosito + 1, pozicio, statusz, ferohely);
+        if(uj == NULL)
+            return 1;
         asztalok->vege->kov = uj;
     }
     asztalok->vege = uj;
+    return 0;
 }
 
 /**
@@ -48,17 +56,25 @@ Asztal *asztal_keres(int azonosito, const Asztalok *asztalok) {
  * @param ar: A menüpont ára.
  * @param nev: A menüpont neve.
  * @param menu: A menü struktúrára mutató pointer.
+ *
+ * @return Visszatérési értéke 0, ha sikerült a hozzáadás,
+ *         1, ha nem sikerült.
  */
-void menupont_hozzaad(int ar, char *nev, Menu *menu) {
+int menupont_hozzaad(int ar, char *nev, Menu *menu) {
     Menupont *uj;
     if(menu->eleje == NULL && menu->vege == NULL) {
         uj = menupont_foglal(0, ar, nev);
+        if(uj == NULL)
+            return 1;
         menu->eleje = uj;
     } else {
         uj = menupont_foglal(menu->vege->azonosito + 1, ar, nev);
+        if(uj == NULL)
+            return 1;
         menu->vege->kov = uj;
     }
     menu->vege = uj;
+    return 0;
 }
 
 /**
@@ -94,6 +110,8 @@ int rendeles_hozzaad(int termek_azonosito, int darab, const Menu *menu, Rendeles
         return 1;
 
     Rendeles *uj = rendeles_foglal(termek, darab);
+    if(uj == NULL)
+        return 1;
     if(rendelesek->eleje == NULL && rendelesek->vege == NULL)
         rendelesek->eleje = uj;
     else
