@@ -52,8 +52,9 @@ void asztalok_felszabadit(const Asztalok *asztalok) {
  * @param asztalok: Az asztalok struktúrára mutató pointer.
  *
  * @return Paraméterlistán beállítja az asztalok értékét.
- *         Visszatérési értéke 1, ha nem sikerült a beolvasás.
- *         0, ha sikerült.
+ *         Visszatérési értéke 1, ha nem sikerült megnyitni a fájlt.
+ *         2, ha nem sikerült a hozzáadás a listához.
+ *         0, ha sikerült a beolvasás.
  */
 int asztalok_beolvas(char *fajl, Asztalok *asztalok) {
     FILE *fp = fopen(fajl, "r");
@@ -64,7 +65,7 @@ int asztalok_beolvas(char *fajl, Asztalok *asztalok) {
     char buffer[255];
     while(fgets(buffer, 255, fp) != NULL)
         if(asztal_sor_hozzaad(buffer, asztalok) == 1)
-            return 1;
+            return 2;
 
     fclose(fp);
     return 0;
@@ -101,8 +102,9 @@ int asztalok_kiir(char *fajl, const Asztalok *asztalok) {
  * @param menu: A menü struktúrára mutató pointer.
  * @param asztalok: Az asztalok struktúrára mutató pointer.
  *
- * @return Visszatérési értéke 1, ha nem sikerült a beolvasás.
- *         0, ha sikerült.
+ * @return Visszatérési értéke 1, ha nem sikerült megnyitni a fájlt.
+ *         2, ha nem sikerült a hozzáadás a listához.
+ *         0, ha sikerült a beolvasás.
  */
 int rendelesek_beolvas(char *fajl, const Menu *menu, Asztalok *asztalok) {
     FILE *fp = fopen(fajl, "r");
@@ -112,7 +114,7 @@ int rendelesek_beolvas(char *fajl, const Menu *menu, Asztalok *asztalok) {
     char buffer[255];
     while(fgets(buffer, 255, fp) != NULL)
         if(rendeles_sor_hozzaad(buffer, menu, asztalok) == 1)
-            return 1;
+            return 2;
 
     fclose(fp);
     return 0;

@@ -44,8 +44,9 @@ void menu_felszabadit(const Menu *menu) {
  * @param menu: A menü struktúrára mutató pointer.
  *
  * @return Paraméterlistán beállítja a menu értékét.
- *         Visszatérési értéke 1, ha nem sikerült a beolvasás.
- *         0, ha sikerült.
+ *         Visszatérési értéke 1, ha nem sikerült megnyitni a fájlt.
+ *         2, ha nem sikerült a listához hozzáadás.
+ *         0, ha sikerült a beolvasás.
  */
 int menu_beolvas(char *fajl, Menu *menu) {
     FILE *fp = fopen(fajl, "r");
@@ -56,7 +57,7 @@ int menu_beolvas(char *fajl, Menu *menu) {
     char buffer[255];
     while(fgets(buffer, 255, fp) != NULL)
         if(menu_sor_hozzaad(buffer, menu) == 1)
-            return 1;
+            return 2;
 
     fclose(fp);
     return 0;
