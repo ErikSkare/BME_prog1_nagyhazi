@@ -2,6 +2,8 @@
 #include "menu.h"
 #include "deps/debugmalloc.h"
 
+static int menu_sor_hozzaad(char *sor, Menu *menu);
+
 /**
  * @brief Dinamikusan lefoglal egy menüpontot az adatokkal.
  *

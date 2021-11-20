@@ -2,6 +2,8 @@
 #include "funkciok.h"
 #include "deps/debugmalloc.h"
 
+static int rendeles_menuponttal(int azonosito, const Asztalok *asztalok);
+
 /**
  * @brief Hozzáad egy asztalt a láncolt listához.
  *

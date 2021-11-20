@@ -3,6 +3,11 @@
 #include "megjelenites.h"
 #include "deps/econio.h"
 
+static int szam_beolvas(int *hova);
+static MenuAllapot megerosites(MenuAllapot kovetkezo);
+static MenuAllapot hibauzenet(MenuAllapot honnan, char *uzenet);
+static MenuAllapot siker(char *uzenet);
+
 MenuAllapot fomenu_vezerlo() {
     econio_clrscr();
     printf("Fõmenü\n\n");

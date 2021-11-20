@@ -25,10 +25,4 @@ MenuAllapot menupont_hozzaad_vezerlo(Menu *menu);
 MenuAllapot menupont_torol_vezerlo(Menu *menu, const Asztalok *asztalok);
 MenuAllapot rendeles_felvetel_vezerlo(const Menu *menu, const Asztalok *asztalok);
 
-//<Segéd függvények>
-static int szam_beolvas(int *hova);
-static MenuAllapot megerosites(MenuAllapot kovetkezo);
-static MenuAllapot hibauzenet(MenuAllapot honnan, char *uzenet);
-static MenuAllapot siker(char *uzenet);
-
 #endif

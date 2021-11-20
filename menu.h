@@ -29,7 +29,6 @@ void menu_felszabadit(const Menu *menu);
 //<Fájlkezelõ függvények>
 int menu_beolvas(char *fajl, Menu *menu);
 int menu_kiir(char *fajl, const Menu *menu);
-static int menu_sor_hozzaad(char *sor, Menu *menu);
 
 //<Hivatkozások>
 extern int menupont_hozzaad(int ar, char *nev, Menu *menu);

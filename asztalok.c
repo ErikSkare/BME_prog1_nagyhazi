@@ -2,6 +2,9 @@
 #include "asztalok.h"
 #include "deps/debugmalloc.h"
 
+static int asztal_sor_hozzaad(char *sor, Asztalok *asztalok);
+static int rendeles_sor_hozzaad(char *sor, const Menu *menu, Asztalok *asztalok);
+
 /**
  * @brief Dinamikusan lefoglal egy asztalt.
  *
