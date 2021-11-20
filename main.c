@@ -1,10 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#ifdef _WIN32
+    #include <windows.h>
+#endif
 #include "funkciok.h"
+#include "megjelenites.h"
 
 int main(int argc, char *argv[])
 {
+#ifdef _WIN32
+    SetConsoleCP(1250);
+    SetConsoleOutputCP(1250);
+#endif
     if(argc != 2) {
         fprintf(stderr, "A program megfelelo hivasa: etterem.exe [etterem neve]!\n");
         return 1;
@@ -35,6 +43,35 @@ int main(int argc, char *argv[])
     }
 
     //Konzolos menüvel vezérlés (még készülõben)
+    MenuAllapot m_allapot = FOMENU;
+    while(m_allapot != KILEP) {
+        switch(m_allapot) {
+            case FOMENU:
+                m_allapot = fomenu_vezerlo();
+                break;
+            case ASZTAL_HOZZAAD:
+                m_allapot = asztal_hozzaad_vezerlo(&asztalok);
+                break;
+            case ASZTAL_TOROL:
+                m_allapot = asztal_torol_vezerlo(&asztalok);
+                break;
+            case ASZTAL_MEGNYIT:
+                m_allapot = asztal_megnyit_vezerlo(&asztalok);
+                break;
+            case ASZTAL_LEZAR:
+                m_allapot = asztal_lezar_vezerlo(&asztalok);
+                break;
+            case MENUPONT_HOZZAAD:
+                m_allapot = menupont_hozzaad_vezerlo(&menu);
+                break;
+            case MENUPONT_TOROL:
+                m_allapot = menupont_torol_vezerlo(&menu, &asztalok);
+                break;
+            case RENDELES_FELVETEL:
+                m_allapot = rendeles_felvetel_vezerlo(&menu, &asztalok);
+                break;
+        }
+    }
 
     //Adatok kiírása
     asztalok_kiir(asztalok_fajlnev, &asztalok);

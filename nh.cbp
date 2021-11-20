@@ -38,6 +38,10 @@
 		</Unit>
 		<Unit filename="asztalok.h" />
 		<Unit filename="deps/debugmalloc.h" />
+		<Unit filename="deps/econio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="deps/econio.h" />
 		<Unit filename="funkciok.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -45,6 +49,10 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="megjelenites.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="megjelenites.h" />
 		<Unit filename="menu.c">
 			<Option compilerVar="CC" />
 		</Unit>
