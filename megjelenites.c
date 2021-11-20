@@ -105,7 +105,7 @@ MenuAllapot menupont_hozzaad_vezerlo(Menu *menu) {
     char nev[50 + 1];
     printf("Név: ");
     int ch;
-    while (ch = getchar() != '\n' && ch != EOF)
+    while ((ch = getchar()) != '\n' && ch != EOF)
         ;
     fgets(nev, 51, stdin);
     nev[strcspn(nev, "\n")] = 0;
