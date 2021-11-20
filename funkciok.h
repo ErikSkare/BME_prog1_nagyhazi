@@ -17,7 +17,4 @@ int menupont_torol(int azonosito, Menu *menu, const Asztalok *asztalok);
 //<Rendeléskezelõ függvények>
 int rendeles_hozzaad(int termek_azonosito, int darab, const Menu *menu, Rendelesek *rendelesek);
 
-//<Segéd függvények>
-static int rendeles_menuponttal(int azonosito, const Asztalok *asztalok);
-
 #endif
