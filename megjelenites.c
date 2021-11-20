@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "megjelenites.h"
-
 #include "deps/econio.h"
 
 MenuAllapot fomenu_vezerlo() {
