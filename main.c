@@ -70,7 +70,11 @@ int main(int argc, char *argv[])
             case RENDELES_FELVETEL:
                 m_allapot = rendeles_felvetel_vezerlo(&menu, &asztalok);
                 break;
+            case SZAMLA_MEGJELENIT:
+                m_allapot = szamla_megjelenit_vezerlo(&asztalok);
+                break;
             default:
+                m_allapot = FOMENU;
                 break;
         }
     }

@@ -7,6 +7,7 @@ static int szam_beolvas(int *hova);
 static MenuAllapot megerosites(MenuAllapot kovetkezo);
 static MenuAllapot hibauzenet(MenuAllapot honnan, char *uzenet);
 static MenuAllapot siker(char *uzenet);
+static void szamla_kiir(const Asztal *megjelenitendo);
 
 MenuAllapot fomenu_vezerlo() {
     econio_clrscr();
@@ -18,11 +19,12 @@ MenuAllapot fomenu_vezerlo() {
     printf("5 - Menüpont hozzáadása\n");
     printf("6 - Menüpont törlése\n");
     printf("7 - Rendelés felvétele\n");
-    printf("8 - Kilépés\n\n");
+    printf("8 - Számla megjelenítése\n");
+    printf("9 - Kilépés\n\n");
 
     int utasitas;
     printf("Parancs: ");
-    while(szam_beolvas(&utasitas) == 1 || utasitas < 1 || utasitas > 8)
+    while(szam_beolvas(&utasitas) == 1 || utasitas < 1 || utasitas > 9)
         printf("Parancs: ");
 
     return megerosites(utasitas);
@@ -172,6 +174,29 @@ MenuAllapot rendeles_felvetel_vezerlo(const Menu *menu, const Asztalok *asztalok
     return siker("Sikerült felvenni a rendelést!");
 }
 
+MenuAllapot szamla_megjelenit_vezerlo(const Asztalok *asztalok) {
+    econio_clrscr();
+    printf("Számla megjelenítése\n\n");
+
+    int asztal_az;
+    printf("Asztal azonosító: ");
+    while(szam_beolvas(&asztal_az) == 1)
+        printf("Asztal azonosító: ");
+
+    Asztal *megjelenitendo = asztal_keres(asztal_az, asztalok);
+    if(megjelenitendo == NULL)
+        return hibauzenet(SZAMLA_MEGJELENIT, "Nem található asztal a megadott azonosítóval!");
+
+    szamla_kiir(megjelenitendo);
+
+    printf("\n1 - Vissza a fõmenübe\n\n");
+    int utasitas;
+    printf("Parancs: ");
+    while(szam_beolvas(&utasitas) == 1 || utasitas != 1)
+        printf("Parancs: ");
+    return FOMENU;
+}
+
 static int szam_beolvas(int *hova) {
     int sikerult = scanf("%d", hova);
     if(sikerult != 1) {
@@ -226,4 +251,25 @@ static MenuAllapot siker(char *uzenet) {
         printf("Parancs: ");
 
     return FOMENU;
+}
+
+static void szamla_kiir(const Asztal *megjelenitendo) {
+    printf("\n------------------------------\n");
+    int vegosszeg = 0;
+    for(int i = 0; i < megjelenitendo->ferohely; ++i) {
+        Rendeles *futo = megjelenitendo->hely_rendelesek[i].eleje;
+        if(futo != NULL)
+            printf(" %d. hely:\n", i);
+
+        while(futo != NULL) {
+            printf("  %dx %s - %dFt\n", futo->darab, futo->termek->nev, futo->darab * futo->termek->ar);
+            vegosszeg += futo->darab * futo->termek->ar;
+            futo = futo->kov;
+        }
+    }
+    if(vegosszeg == 0)
+        printf(" Nem volt rendelés!\n");
+    else
+        printf("\n Végösszeg: %dFt\n", vegosszeg);
+    printf("------------------------------\n");
 }
