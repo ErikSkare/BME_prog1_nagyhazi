@@ -36,17 +36,17 @@ MenuAllapot asztal_hozzaad_vezerlo(Asztalok *asztalok) {
 
     int x_poz;
     printf("X pozíció: ");
-    while(szam_beolvas(&x_poz) == 1)
+    while(szam_beolvas(&x_poz) == 1 || x_poz < 0)
         printf("X pozíció: ");
 
     int y_poz;
     printf("Y pozíció: ");
-    while(szam_beolvas(&y_poz) == 1)
+    while(szam_beolvas(&y_poz) == 1 || y_poz < 0)
         printf("Y pozíció: ");
 
     int ferohely;
     printf("Férõhely: ");
-    while(szam_beolvas(&ferohely) == 1)
+    while(szam_beolvas(&ferohely) == 1 || ferohely < 1)
         printf("Férõhely: ");
 
     int eredmeny = asztal_hozzaad((struct Pozicio){x_poz, y_poz}, SZABAD, ferohely, asztalok);
