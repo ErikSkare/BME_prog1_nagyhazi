@@ -154,6 +154,30 @@ int rendelesek_kiir(char *fajl, const Asztalok *asztalok) {
 }
 
 /**
+ * @brief Visszaadja paraméterlistán a maximális X és Y koordinátát
+ *        az asztal pozíciók közül.
+ *
+ * @param asztalok: Az asztalok listára mutató pointer
+ * @param max_X: Azon változóra mutató pointer, ahova a
+ *               maximális X koordinátát szeretnénk írni
+ * @param max_Y: Azon változóra mutató pointer, ahova a
+ *               maximális Y koordinátát szeretnénk írni
+ */
+void max_koordinatak(const Asztalok *asztalok, int *max_X, int *max_Y) {
+    Asztal *futo = asztalok->eleje;
+    int X = -1, Y = -1;
+    while(futo != NULL) {
+        if(futo->pozicio.X > X)
+            X = futo->pozicio.X;
+        if(futo->pozicio.Y > Y)
+            Y = futo->pozicio.Y;
+        futo = futo->kov;
+    }
+    *max_X = X;
+    *max_Y = Y;
+}
+
+/**
  * @brief Hozzáadja a láncolt listához az asztalt,
  *        amelyet egy sztringbõl képez.
  *

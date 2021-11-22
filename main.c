@@ -73,6 +73,9 @@ int main(int argc, char *argv[])
             case SZAMLA_MEGJELENIT:
                 m_allapot = szamla_megjelenit_vezerlo(&asztalok);
                 break;
+            case FOGLALTSAG_MEGJELENIT:
+                m_allapot = foglaltsagi_terkep_vezerlo(&asztalok);
+                break;
             default:
                 m_allapot = FOMENU;
                 break;

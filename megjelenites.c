@@ -8,6 +8,7 @@ static MenuAllapot megerosites(MenuAllapot kovetkezo);
 static MenuAllapot hibauzenet(MenuAllapot honnan, char *uzenet);
 static MenuAllapot siker(char *uzenet);
 static void szamla_kiir(const Asztal *megjelenitendo);
+static void foglaltsag_kiir(const Asztalok *asztalok, int offsetX, int offsetY);
 
 MenuAllapot fomenu_vezerlo() {
     econio_clrscr();
@@ -20,11 +21,12 @@ MenuAllapot fomenu_vezerlo() {
     printf("6 - Menüpont törlése\n");
     printf("7 - Rendelés felvétele\n");
     printf("8 - Számla megjelenítése\n");
-    printf("9 - Kilépés\n\n");
+    printf("9 - Foglaltsági térkép megjelenítése\n");
+    printf("10 - Kilépés\n\n");
 
     int utasitas;
     printf("Parancs: ");
-    while(szam_beolvas(&utasitas) == 1 || utasitas < 1 || utasitas > 9)
+    while(szam_beolvas(&utasitas) == 1 || utasitas < 1 || utasitas > 10)
         printf("Parancs: ");
 
     return megerosites(utasitas);
@@ -197,6 +199,23 @@ MenuAllapot szamla_megjelenit_vezerlo(const Asztalok *asztalok) {
     return FOMENU;
 }
 
+MenuAllapot foglaltsagi_terkep_vezerlo(const Asztalok *asztalok) {
+    econio_clrscr();
+    printf("Foglaltsági térkép megjelenítése");
+
+    foglaltsag_kiir(asztalok, 2, 2);
+    printf("\n");
+
+    printf("1- Vissza a fõmenübe\n\n");
+
+    int utasitas;
+    printf("Parancs: ");
+    while(szam_beolvas(&utasitas) == 1 || utasitas != 1)
+        printf("Parancs: ");
+
+    return FOMENU;
+}
+
 static int szam_beolvas(int *hova) {
     int sikerult = scanf("%d", hova);
     if(sikerult != 1) {
@@ -272,4 +291,37 @@ static void szamla_kiir(const Asztal *megjelenitendo) {
     else
         printf("\n Végösszeg: %dFt\n", vegosszeg);
     printf("------------------------------\n");
+}
+
+static void foglaltsag_kiir(const Asztalok *asztalok, int offsetX, int offsetY) {
+    econio_gotoxy(offsetX, offsetY);
+
+    int max_X, max_Y;
+    max_koordinatak(asztalok, &max_X, &max_Y);
+
+    if(max_X == -1 && max_Y == -1) {
+        econio_gotoxy(offsetX, offsetY);
+        printf("Nincsen asztal az étteremben!\n");
+        return;
+    }
+
+    for(int i = 0; i <= max_X; ++i) {
+        for(int j = 0; j <= max_Y; ++j) {
+            econio_gotoxy(offsetX + i, offsetY + j);
+            printf("-");
+        }
+    }
+
+    Asztal *futo = asztalok->eleje;
+    while(futo != NULL) {
+        econio_gotoxy(offsetX + futo->pozicio.X,
+                      offsetY + futo->pozicio.Y);
+        if(futo->statusz == FOGLALT)
+            printf("F");
+        else
+            printf("S");
+        futo = futo->kov;
+    }
+
+    econio_gotoxy(0, offsetY + max_Y + 1);
 }

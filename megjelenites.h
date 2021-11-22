@@ -13,7 +13,8 @@ typedef enum MenuAllapot {
     MENUPONT_TOROL = 6,
     RENDELES_FELVETEL = 7,
     SZAMLA_MEGJELENIT = 8,
-    KILEP = 9
+    FOGLALTSAG_MEGJELENIT = 9,
+    KILEP = 10
 } MenuAllapot;
 
 //<Vezérlõ függvények>
@@ -26,5 +27,6 @@ MenuAllapot menupont_hozzaad_vezerlo(Menu *menu);
 MenuAllapot menupont_torol_vezerlo(Menu *menu, const Asztalok *asztalok);
 MenuAllapot rendeles_felvetel_vezerlo(const Menu *menu, const Asztalok *asztalok);
 MenuAllapot szamla_megjelenit_vezerlo(const Asztalok *asztalok);
+MenuAllapot foglaltsagi_terkep_vezerlo(const Asztalok *asztalok);
 
 #endif

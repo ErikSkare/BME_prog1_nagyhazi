@@ -46,6 +46,9 @@ int asztalok_kiir(char *fajl, const Asztalok *asztalok);
 int rendelesek_beolvas(char *fajl, const Menu *menu, Asztalok *asztalok);
 int rendelesek_kiir(char *fajl, const Asztalok *asztalok);
 
+//<Egyéb függvények>
+void max_koordinatak(const Asztalok *asztalok, int *max_X, int *max_Y);
+
 //<Hivatkozások>
 extern int asztal_hozzaad(struct Pozicio pozicio, enum Statusz statusz, int ferohely, Asztalok *asztalok);
 extern Asztal *asztal_keres(int azonosito, const Asztalok *asztalok);
