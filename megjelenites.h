@@ -17,7 +17,14 @@ typedef enum MenuAllapot {
     KILEP = 10
 } MenuAllapot;
 
-//<Vez�rl� f�ggv�nyek>
+//<Vezérlõ függvények>
+/*
+ * A vezérlő függvények általános működése:
+ *   beolvassák az adott állapot lefuttatásához
+ *   szükséges adatokat (ha vannak), és megjelenítik
+ *   az információkat. Ezután visszatérnek a következő
+ *   állapot értékével.
+ */
 MenuAllapot fomenu_vezerlo();
 MenuAllapot asztal_hozzaad_vezerlo(Asztalok *asztalok);
 MenuAllapot asztal_torol_vezerlo(Asztalok *asztalok);
