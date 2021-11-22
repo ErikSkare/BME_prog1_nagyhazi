@@ -204,9 +204,8 @@ MenuAllapot foglaltsagi_terkep_vezerlo(const Asztalok *asztalok) {
     printf("Foglaltsági térkép megjelenítése");
 
     foglaltsag_kiir(asztalok, 2, 2);
-    printf("\n");
 
-    printf("1- Vissza a fõmenübe\n\n");
+    printf("\n1- Vissza a fõmenübe\n\n");
 
     int utasitas;
     printf("Parancs: ");
