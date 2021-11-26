@@ -106,12 +106,12 @@ MenuAllapot menupont_hozzaad_vezerlo(Menu *menu) {
     econio_clrscr();
     printf("Menüpont hozzáadása\n\n");
 
-    char nev[50 + 1];
+    char *nev;
     printf("Név: ");
     int ch;
-    while ((ch = getchar()) != '\n' && ch != EOF)
+    while ((ch = getc(stdin)) != '\n' && ch != EOF)
         ;
-    fgets(nev, 51, stdin);
+    nev = din_sor_beolvas(stdin);
     nev[strcspn(nev, "\n")] = 0;
 
     int ar;
