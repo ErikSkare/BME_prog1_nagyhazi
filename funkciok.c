@@ -243,6 +243,14 @@ int rendeles_hozzaad(int termek_azonosito, int darab, const Menu *menu, Rendeles
     return 0;
 }
 
+/**
+ * @brief Dinamikusan beolvas egy sort a megadott fájlból.
+ *
+ * @param fp: A fájlra mutató pointer.
+ *
+ * @return Visszaadja a dinamikusan foglalt sorra mutató pointer.
+ *         A hívó felelőssége a felszabadítás!
+ */
 char *din_sor_beolvas(FILE *fp) {
     char *sor = NULL;
     int ch, hossz = 1;
