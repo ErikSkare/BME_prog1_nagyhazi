@@ -18,7 +18,7 @@ Menupont *menupont_foglal(int azonosito, int ar, char *nev) {
     Menupont *uj = (Menupont*) malloc(sizeof(Menupont));
     if(uj == NULL)
         return NULL;
-    strcpy(uj->nev, nev);
+    uj->nev = nev;
     uj->azonosito = azonosito;
     uj->ar = ar;
     uj->kov = NULL;
@@ -34,6 +34,7 @@ void menu_felszabadit(const Menu *menu) {
     Menupont *aktualis = menu->eleje;
     while(aktualis != NULL) {
         Menupont *kov = aktualis->kov;
+        free(aktualis->nev);
         free(aktualis);
         aktualis = kov;
     }
@@ -99,9 +100,10 @@ int menu_kiir(char *fajl, const Menu *menu) {
  * @return Visszatérési értéke a menü hozzáadás sikeressége.
  */
 static int menu_sor_hozzaad(char *sor, Menu *menu) {
-    char *resz, nev[50 + 1];
+    char *resz, *nev;
     int ar;
     resz = strtok(sor, ";");
+    nev = (char*) malloc((strlen(resz) + 1) * sizeof(char));
     strcpy(nev, resz);
     resz = strtok(NULL, ";");
     sscanf(resz, "%d", &ar);

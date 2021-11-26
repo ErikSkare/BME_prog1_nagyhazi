@@ -18,7 +18,7 @@ typedef struct Menu {
  */
 typedef struct Menupont {
     int azonosito, ar;
-    char nev[50 + 1];
+    char *nev;
     struct Menupont *kov;
 } Menupont;
 
