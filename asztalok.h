@@ -52,5 +52,6 @@ void max_koordinatak(const Asztalok *asztalok, int *max_X, int *max_Y);
 //<Hivatkozások>
 extern int asztal_hozzaad(struct Pozicio pozicio, enum Statusz statusz, int ferohely, Asztalok *asztalok);
 extern Asztal *asztal_keres(int azonosito, const Asztalok *asztalok);
+extern char *din_sor_beolvas(FILE *fp);
 
 #endif

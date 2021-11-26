@@ -57,10 +57,13 @@ int menu_beolvas(char *fajl, Menu *menu) {
     if(fp == NULL)
         return 1;
 
-    char buffer[255];
-    while(fgets(buffer, 255, fp) != NULL)
-        if(menu_sor_hozzaad(buffer, menu) == 1)
+    char *buffer;
+    while((buffer = din_sor_beolvas(fp)) != NULL) {
+        int eredmeny = menu_sor_hozzaad(buffer, menu);
+        free(buffer);
+        if(eredmeny == 1)
             return 2;
+    }
 
     fclose(fp);
     return 0;

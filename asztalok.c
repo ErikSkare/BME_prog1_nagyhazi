@@ -65,10 +65,13 @@ int asztalok_beolvas(char *fajl, Asztalok *asztalok) {
     if(fp == NULL)
         return 1;
 
-    char buffer[255];
-    while(fgets(buffer, 255, fp) != NULL)
-        if(asztal_sor_hozzaad(buffer, asztalok) == 1)
+    char *buffer;
+    while((buffer = din_sor_beolvas(fp)) != NULL) {
+        int eredmeny = asztal_sor_hozzaad(buffer, asztalok);
+        free(buffer);
+        if(eredmeny == 1)
             return 2;
+    }
 
     fclose(fp);
     return 0;
@@ -114,10 +117,13 @@ int rendelesek_beolvas(char *fajl, const Menu *menu, Asztalok *asztalok) {
     if(fp == NULL)
         return 1;
 
-    char buffer[255];
-    while(fgets(buffer, 255, fp) != NULL)
-        if(rendeles_sor_hozzaad(buffer, menu, asztalok) == 1)
+    char *buffer;
+    while((buffer = din_sor_beolvas(fp)) != NULL) {
+        int eredmeny = rendeles_sor_hozzaad(buffer, menu, asztalok);
+        free(buffer);
+        if(eredmeny == 1)
             return 2;
+    }
 
     fclose(fp);
     return 0;

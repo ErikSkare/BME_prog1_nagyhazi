@@ -243,6 +243,22 @@ int rendeles_hozzaad(int termek_azonosito, int darab, const Menu *menu, Rendeles
     return 0;
 }
 
+char *din_sor_beolvas(FILE *fp) {
+    char *sor = NULL;
+    int ch, hossz = 1;
+
+    while((ch = getc(fp)) != EOF && ch != '\n') {
+        sor = (char*) realloc(sor, (hossz + 1) * sizeof(char));
+        sor[hossz - 1] = ch;
+        hossz++;
+    }
+
+    if(ch == EOF)
+        return NULL;
+    sor[hossz - 1] = '\0';
+    return sor;
+}
+
 /**
  * @brief Megmondja, hogy van-e nyilvántartott rendelés az adott menüpont azonosítóval.
  *

@@ -32,5 +32,6 @@ int menu_kiir(char *fajl, const Menu *menu);
 
 //<Hivatkozások>
 extern int menupont_hozzaad(int ar, char *nev, Menu *menu);
+extern char *din_sor_beolvas(FILE *fp);
 
 #endif
