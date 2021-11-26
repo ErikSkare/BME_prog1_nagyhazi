@@ -42,13 +42,13 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="deps/econio.h" />
+		<Unit filename="etterem.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="funkciok.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="funkciok.h" />
-		<Unit filename="main.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="megjelenites.c">
 			<Option compilerVar="CC" />
 		</Unit>
