@@ -1,5 +1,6 @@
 #ifndef MENU_H
 #define MENU_H
+#include <stdio.h>
 
 /**
  * @param eleje: A láncolt lista elsõ elemére mutató pointer.

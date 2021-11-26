@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "menu.h"
 #include "deps/debugmalloc.h"
 

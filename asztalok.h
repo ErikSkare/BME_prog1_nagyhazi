@@ -1,5 +1,6 @@
 #ifndef ASZTALOK_H
 #define ASZTALOK_H
+#include <stdio.h>
 #include "rendelesek.h"
 
 enum Statusz {

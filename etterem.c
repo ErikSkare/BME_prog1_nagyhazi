@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <stdbool.h>
 #include "megjelenites.h"
 #include "deps/debugmalloc.h"

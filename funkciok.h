@@ -1,5 +1,6 @@
 #ifndef FUNKCIOK_H
 #define FUNKCIOK_H
+#include <stdio.h>
 #include "asztalok.h"
 
 //<Asztalkezelõ függvények>
