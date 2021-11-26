@@ -7,8 +7,7 @@
  * @param vege: A láncolt lista utolsó elemére mutató pointer.
  */
 typedef struct Rendelesek {
-    struct Rendeles *eleje;
-    struct Rendeles *vege;
+    struct Rendeles *eleje, *vege;
 } Rendelesek;
 
 /**

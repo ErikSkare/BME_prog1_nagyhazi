@@ -6,8 +6,7 @@
  * @param vege: A láncolt lista utolsó elemére mutató pointer.
  */
 typedef struct Menu {
-    struct Menupont *eleje;
-    struct Menupont *vege;
+    struct Menupont *eleje, *vege;
 } Menu;
 
 /**

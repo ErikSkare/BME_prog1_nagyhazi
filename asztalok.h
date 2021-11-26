@@ -6,6 +6,7 @@ enum Statusz {
     SZABAD = 0,
     FOGLALT = 1
 };
+
 struct Pozicio {
     int X, Y;
 };
@@ -15,8 +16,7 @@ struct Pozicio {
  * @param vege: A láncolt lista utolsó elemére mutató pointer.
  */
 typedef struct Asztalok {
-    struct Asztal *eleje;
-    struct Asztal *vege;
+    struct Asztal *eleje, *vege;
 } Asztalok;
 
 /**
@@ -28,10 +28,9 @@ typedef struct Asztalok {
  * @param kov: A következõ asztalra mutató pointer.
  */
 typedef struct Asztal {
-    int azonosito;
+    int azonosito, ferohely;
     struct Pozicio pozicio;
     enum Statusz statusz;
-    int ferohely;
     Rendelesek *hely_rendelesek;
     struct Asztal *kov;
 } Asztal;
